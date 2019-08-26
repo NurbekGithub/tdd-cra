@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import NewRestaurantForm from "./NewRestaurantForm";
+import { Button } from "@material-ui/core";
+import RestaurantsList from "./RestaurantsList";
 
 export default function RestaurantListPage() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -11,17 +13,15 @@ export default function RestaurantListPage() {
   }
   return (
     <div>
-      <button onClick={() => setModalVisible(true)}>Add Restaurant!</button>
+      <Button onClick={() => setModalVisible(true)} variant="outlined">
+        Add Restaurant!
+      </Button>
       {modalVisible && (
         <div>
           <NewRestaurantForm handleSubmit={handleSubmit} />
         </div>
       )}
-      <ul>
-        {restaurants.map(restaurant => (
-          <li key={restaurant}>{restaurant}</li>
-        ))}
-      </ul>
+      <RestaurantsList restaurants={restaurants} />
     </div>
   );
 }

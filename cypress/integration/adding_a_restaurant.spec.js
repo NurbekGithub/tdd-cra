@@ -4,6 +4,7 @@ describe("adding a restaurant", () => {
   it("displays the restaurant in the list", () => {
     const restaurantName = "Sushi Place";
     cy.visit("http://localhost:3000");
+    cy.viewport("iphone-6");
 
     // confirm that form does not exist yet
     cy.get("form").should("not.exist");
