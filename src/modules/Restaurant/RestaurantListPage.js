@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import NewRestaurantForm from "./NewRestaurantForm";
-import { Button } from "@material-ui/core";
+import { Button, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
 import RestaurantsList from "./RestaurantsList";
 
 export default function RestaurantListPage() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [restaurants, setRestaurants] = useState(["first"]);
+  const [restaurants, setRestaurants] = useState([]);
 
   function handleSubmit(name) {
     setRestaurants(prevState => [...prevState, name]);
@@ -16,11 +16,12 @@ export default function RestaurantListPage() {
       <Button onClick={() => setModalVisible(true)} variant="outlined">
         Add Restaurant!
       </Button>
-      {modalVisible && (
-        <div>
+      <Dialog open={modalVisible}>
+        <DialogTitle>New restaurant</DialogTitle>
+        <DialogContent>
           <NewRestaurantForm handleSubmit={handleSubmit} />
-        </div>
-      )}
+        </DialogContent>
+      </Dialog>
       <RestaurantsList restaurants={restaurants} />
     </div>
   );
