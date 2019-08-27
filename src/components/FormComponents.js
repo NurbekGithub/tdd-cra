@@ -1,6 +1,11 @@
 import React from 'react';
-import { TextField } from "@material-ui/core";
+import { TextField, FormControl, FormHelperText } from "@material-ui/core";
 
 export function renderTextField({ field, form, ...rest }) {
-  return <TextField {...field} {...rest} />;
+  const error = form.touched[field.name] && form.errors[field.name];
+  return <FormControl error={!!error}>
+    <TextField {...field} {...rest} />
+    {error && <FormHelperText>{error}</FormHelperText>}
+  </FormControl>
+  
 }

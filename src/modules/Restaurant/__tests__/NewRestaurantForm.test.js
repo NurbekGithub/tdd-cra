@@ -8,7 +8,7 @@ describe("<NewRestaurantForm />", () => {
   describe("clicking the save button", () => {
     const submitMock = jest.fn();
     it("calls the handleSubmit with restaurant name", async () => {
-      const { getByLabelText, getByTestId } = render(
+      const { getByLabelText, getByTestId, getByText } = render(
         <NewRestaurantForm handleSubmit={submitMock} />
       );
       const restaurantName = "Sushi place";
@@ -17,6 +17,14 @@ describe("<NewRestaurantForm />", () => {
         actions: expect.anything()
       }
       const input = getByLabelText("name");
+
+      // test validation
+      fireEvent.submit(getByTestId("NewRestaurantForm"));
+      await wait(() => {
+        expect(submitMock).toHaveBeenCalledTimes(0);
+      });
+      getByText('Required');
+
       fireEvent.change(input, { target: { value: restaurantName } });
       // bug in jsdom https://github.com/testing-library/react-testing-library/issues/234
       // fireEvent.click(getByText("save"));
