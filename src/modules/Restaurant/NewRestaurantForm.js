@@ -1,26 +1,29 @@
-import React, { useState } from "react";
-import { TextField, Button } from "@material-ui/core";
+import React from "react";
+import { Button } from "@material-ui/core";
+import { Formik, Form, FastField } from "formik";
+import { renderTextField } from "../../components/FormComponents";
 
-export default function NewRestaurantForm({ handleSubmit }) {
-  const [name, setName] = useState("");
-
-  function _handleSubmit(e) {
-    e.preventDefault();
-    handleSubmit(name);
-  }
-
+function NewRestaurantForm() {
   return (
-    <form onSubmit={_handleSubmit} data-testid="NewRestaurantForm">
-      <TextField
-        id="name"
-        label="name"
-        value={name}
-        onChange={e => setName(e.target.value)}
+    <Form data-testid="NewRestaurantForm">
+      <FastField
+        name='name'
+        id='name'
         autoFocus
+        label='name'
+        component={renderTextField}
       />
       <Button color="primary" type="submit" variant="contained">
         save
       </Button>
-    </form>
+    </Form>
   );
+}
+
+export default function FormWrapper({handleSubmit}) {
+  return <Formik
+    initialValues={{name: ''}}
+    onSubmit={handleSubmit}
+    component={NewRestaurantForm}
+  />    
 }

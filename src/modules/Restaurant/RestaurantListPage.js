@@ -13,9 +13,10 @@ export default function RestaurantListPage() {
   const [modalVisible, setModalVisible] = useState(false);
   const [restaurants, setRestaurants] = useState([]);
 
-  function handleSubmit(name) {
-    setRestaurants(prevState => [...prevState, name]);
+  function handleSubmit(values, actions) {
+    setRestaurants(prevState => [...prevState, values.name]);
     setModalVisible(false);
+    actions.setSubmitting(false);
   }
 
   return (
