@@ -14,6 +14,13 @@ describe("adding a restaurant", () => {
     // confirm that form does exist
     cy.get("form").should("exist");
 
+    cy.getByText(/cancel/i).click();
+
+    // confirm that form does exist
+    cy.get("form").should("not.exist");
+
+    cy.getByText(/add restaurant/i).click();
+
     cy.getByLabelText("name").type(restaurantName);
 
     cy.getByText("save").click();
