@@ -21,6 +21,12 @@ describe("adding a restaurant", () => {
 
     cy.getByText(/add restaurant/i).click();
 
+    // confirm that form does exist
+    cy.get("form").should("exist");
+
+    // make sure input field is focused automatically
+    cy.focused().should('have.attr', 'id', 'name');
+
     cy.getByLabelText("name").type(restaurantName);
 
     cy.getByText("save").click();
@@ -29,5 +35,9 @@ describe("adding a restaurant", () => {
     cy.get("form").should("not.exist");
 
     cy.contains(restaurantName);
+
+    // checks if opening again a modal will have empty input
+    cy.getByText(/add restaurant/i).click();
+    cy.getByLabelText("name").should('have.attr', 'value', '');
   });
 });
