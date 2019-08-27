@@ -1,23 +1,33 @@
 import "@testing-library/cypress/add-commands";
 
-describe("adding a restaurant", () => {
-  it("displays the restaurant in the list", () => {
+describe('adding a dish', () => {
+  it('displays dish in the list', () => {
     const restaurantName = "Sushi Place";
-    // setup
+    const dishName = 'Vulcano';
     cy.visit("http://localhost:3000");
-    cy.viewport("iphone-6");
 
+    addingRestaurantFlow(restaurantName);
+    goToRestaurantDetailsPage(restaurantName);
     testModalOpeningAndClosing();
     checkIfInputHasAutoFocus();
-    addingRestaurantFlow(restaurantName);
-    checkIfNewModalHasEmtpyInput();
-  });
+    addingDishFlow(dishName);
+  })
+})
 
-});
+function addingRestaurantFlow(restaurantName) {
+  cy.getByText(/add restaurant/i).click();
+  cy.getByLabelText("name").type(restaurantName);
+  cy.getByText("save").click();
+}
+
+function goToRestaurantDetailsPage(restaurantName) {
+  cy.getByText(restaurantName).click();
+}
+
 function testModalOpeningAndClosing() {
   // confirm that form does not exist yet
   cy.get("form").should("not.exist");
-  cy.getByText(/add restaurant/i).click();
+  cy.getByText(/add dish/i).click();
   // confirm that form does exist
   cy.get("form").should("exist");
   cy.getByText(/cancel/i).click();
@@ -27,22 +37,16 @@ function testModalOpeningAndClosing() {
 
 function checkIfInputHasAutoFocus() {
   // make sure input field is focused automatically
-  cy.getByText(/add restaurant/i).click();
+  cy.getByText(/add dish/i).click();
   cy.focused().should('have.attr', 'id', 'name');
   cy.getByText(/cancel/i).click();
 }
 
-function addingRestaurantFlow(restaurantName) {
-  cy.getByText(/add restaurant/i).click();
-  cy.getByLabelText("name").type(restaurantName);
+function addingDishFlow(dishName) {
+  cy.getByText(/add dish/i).click();
+  cy.getByLabelText("name").type(dishName);
   cy.getByText("save").click();
   // confirm that form does not exist
   cy.get("form").should("not.exist");
-  cy.contains(restaurantName);
-}
-
-function checkIfNewModalHasEmtpyInput() {
-  // checks if opening again a modal will have empty input
-  cy.getByText(/add restaurant/i).click();
-  cy.getByLabelText("name").should('have.attr', 'value', '');
+  cy.contains(dishName);
 }
