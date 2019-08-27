@@ -25,4 +25,4 @@ jobs:
             - ~/.cache
       - run: npm i -g wait-on
       - run: bin/cypress
-      - run: npm run unit
+      - run: npm run test:staged
