@@ -5,8 +5,8 @@ export default function DishesList({ dishes }) {
   return (
     <List subheader={<Typography variant="h6">Dishes</Typography>}>
       {dishes.map(dish => (
-        <ListItem key={dish} divider>
-          {dish}
+        <ListItem key={dish.id} divider>
+          {dish.name}
         </ListItem>
       ))}
     </List>

@@ -1,9 +1,9 @@
 import "@testing-library/cypress/add-commands";
 
-describe('adding a dish', () => {
-  it('displays dish in the list', () => {
+describe("adding a dish", () => {
+  it("displays dish in the list", () => {
     const restaurantName = "Sushi Place";
-    const dishName = 'Vulcano';
+    const dishName = "Vulcano";
     cy.visit("http://localhost:3000");
 
     addingRestaurantFlow(restaurantName);
@@ -11,8 +11,8 @@ describe('adding a dish', () => {
     testModalOpeningAndClosing();
     checkIfInputHasAutoFocus();
     addingDishFlow(dishName);
-  })
-})
+  });
+});
 
 function addingRestaurantFlow(restaurantName) {
   cy.getByText(/add restaurant/i).click();
@@ -21,7 +21,9 @@ function addingRestaurantFlow(restaurantName) {
 }
 
 function goToRestaurantDetailsPage(restaurantName) {
-  cy.getByText(restaurantName).click();
+  cy.getAllByText(restaurantName)
+    .first()
+    .click();
 }
 
 function testModalOpeningAndClosing() {
@@ -38,7 +40,7 @@ function testModalOpeningAndClosing() {
 function checkIfInputHasAutoFocus() {
   // make sure input field is focused automatically
   cy.getByText(/add dish/i).click();
-  cy.focused().should('have.attr', 'id', 'name');
+  cy.focused().should("have.attr", "id", "name");
   cy.getByText(/cancel/i).click();
 }
 

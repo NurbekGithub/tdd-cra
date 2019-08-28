@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NewRestaurantForm from "./NewRestaurantForm";
 import {
   Button,
@@ -8,16 +8,27 @@ import {
   Divider
 } from "@material-ui/core";
 import RestaurantsList from "./RestaurantsList";
+import { getRestaurants, createRestaurant } from "../../api";
 
 export default function RestaurantListPage() {
   const [modalVisible, setModalVisible] = useState(false);
   const [restaurants, setRestaurants] = useState([]);
 
   function handleSubmit(values, actions) {
-    setRestaurants(prevState => [...prevState, values.name]);
-    setModalVisible(false);
-    actions.setSubmitting(false);
+    createRestaurant({ name: values.name })
+      .then(restaurants => setRestaurants(restaurants))
+      .catch(console.error)
+      .finally(() => {
+        setModalVisible(false);
+        actions.setSubmitting(false);
+      });
   }
+
+  useEffect(() => {
+    getRestaurants()
+      .then(restaurants => setRestaurants(restaurants))
+      .catch(console.error);
+  }, []);
 
   return (
     <div>
