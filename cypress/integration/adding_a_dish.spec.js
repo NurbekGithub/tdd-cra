@@ -1,10 +1,69 @@
 import "@testing-library/cypress/add-commands";
 
+const restaurants = [
+  {
+    id: 1,
+    name: "Sushi Place",
+    dishes: [1, 2]
+  },
+  {
+    id: 2,
+    name: "Burger Place",
+    dishes: [3]
+  }
+];
+
+const dishes = [
+  {
+    id: 1,
+    name: "Vulcano"
+  },
+  {
+    id: 2,
+    name: "SF"
+  },
+  {
+    id: 3,
+    name: "Mega Burger"
+  }
+];
+
 describe("adding a dish", () => {
   it("displays dish in the list", () => {
     const restaurantName = "Sushi Place";
     const dishName = "Vulcano";
+
+    cy.server();
+    cy.route({
+      method: "GET",
+      url: "/restaurants/1",
+      response: {
+        restaurantName,
+        dishes
+      }
+    });
+    cy.route({
+      method: "POST",
+      url: "/restaurants/1",
+      response: {
+        restaurantName,
+        dishes: [...dishes, { id: dishes.length + 1, name: dishName }]
+      }
+    });
+    cy.route({
+      method: "GET",
+      url: "/restaurants",
+      response: restaurants
+    });
+    cy.route({
+      method: "POST",
+      url: "/restaurants",
+      response: [...restaurants, { id: 3, name: restaurantName }]
+    });
+
+    // setup
     cy.visit("http://localhost:3000");
+    cy.viewport("iphone-6");
 
     addingRestaurantFlow(restaurantName);
     goToRestaurantDetailsPage(restaurantName);
